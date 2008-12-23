@@ -60,12 +60,12 @@ class Outputz:
 if __name__ == "__main__":
   import os 
   readline.parse_and_bind("tab: complete")
-  # 認証設定
+  # auth setting
   wassr_config = Pit.get('wassr.jp',{'require' : {'user':'Your wassr name','password':'Your wassr password'}})
   wassr = Wassr(wassr_config['user'],wassr_config['password'])
   twitter_config = Pit.get('twitter.com',{'require' : {'user':'Your twitter name','password':'Your twitter password'}})
   twitter = tw.Api(twitter_config['user'], twitter_config['password'])
-  # outpuz設定
+  # outpuz setting
   outputz_key = Pit.get('outputz.com',{'require' : {'key':'Your outputz key'}})['key']
   twitter_outputz = Outputz(outputz_key, 'http://twitter.com/%s' % twitter_config['user'])
   wassr_outputz = Outputz(outputz_key, 'http://wassr.jp/user/%s' % wassr_config['user'])
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     return results[status]
   
   def twitPost(input):
-    # 投稿処理
+    # post twitter and wassr
     twit = ''.join(input[1:])
     wassr.post(input)
     twitter.PostUpdate(input)
@@ -102,7 +102,7 @@ if __name__ == "__main__":
 
 
   def getFriensTimeLine(wassr, twitter):
-    # FriendsTimeLineの取得
+    # Get FriendsTimeLine
     print ' -----  wassr Friends Time Line  -----'
     for data in reversed(wassr. getTimeline()):
       print "%-12s: %s" % (data['user_login_id'] ,data['text'])
@@ -115,7 +115,7 @@ if __name__ == "__main__":
     print '\n  -----  twitter Friends Time Line  -----'
     for data in reversed(twitter.GetFriendsTimeline()):
       print '%-12s : %s' % (data.GetUser().GetScreenName() ,data.GetText())
-      # Logging しる
+      # append log
       twit  = "tw[%s]%-12s: %s" % (data.GetCreatedAt(), data.GetUser().GetScreenName(), data.GetText())
       if twit in friendsTimeLine:
         pass
